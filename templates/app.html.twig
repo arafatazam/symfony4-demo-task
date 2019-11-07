@@ -1,0 +1,36 @@
+{% extends('base.html.twig') %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% for user in users %}
+            <div class="col-sm-6 col-md-4" style="margin-top: 25px">
+                <div class="card">
+                    <div class="card-header text-white bg-primary"><h4>{{ user.firstName}}</h4></div>
+                    <div class="card-body">
+                        <ul>
+                            <li>One Task</li>
+                            <li>Another Task
+                                <ul>
+                                    <li>More Nest</li>
+                                    <li>Nest</li>
+                                </ul>
+                            </li>
+                            <li>Last Task
+                                <ul>
+                                    <li>Nested task</li>
+                                    <li>Nest</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+Task
+{% endblock %}
+
