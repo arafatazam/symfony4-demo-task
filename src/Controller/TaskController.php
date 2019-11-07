@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Dto\TaskDto;
-use JMS\Serializer\Serializer;
+use App\Service\TaskService;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,10 +13,13 @@ class TaskController extends AbstractController
 {
     /** @var SerializerInterface  */
     protected $serializer;
+    /**@var TaskService */
+    protected $taskService;
 
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(SerializerInterface $serializer, TaskService $taskService)
     {
         $this->serializer = $serializer;
+        $this->taskService = $taskService;
     }
 
     /**
@@ -24,8 +27,24 @@ class TaskController extends AbstractController
      * @param TaskDto $taskDto
      * @return JsonResponse
      */
-    public function createTask(TaskDto $taskDto){
-        $result = $this->serializer->serialize($taskDto, 'json');
+    public function createTask(TaskDto $taskDto)
+    {
+        $resultDto = $this->taskService->create($taskDto);
+        $result = $this->serializer->serialize($resultDto, 'json');
         return new JsonResponse($result, 200, [], true);
     }
+
+    /**
+     * @Route("/task/{id}", methods={"PUT"})
+     * @param $id
+     * @param TaskDto $taskDto
+     * @return JsonResponse
+     */
+    public function replaceTask($id, TaskDto $taskDto)
+    {
+        $resultDto = $this->taskService->replace($id, $taskDto);
+        $result = $this->serializer->serialize($resultDto, 'json');
+        return new JsonResponse($result, 200, [], true);
+    }
+
 }
