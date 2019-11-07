@@ -43,12 +43,14 @@ class TaskDto
     private $email;
     /**
      * @Serializer\ReadOnly()
-     * @Accessor(getter="getCreatedAt")
+     * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
+     * @Accessor(getter="getCreatedAt", setter="setCreatedAt")
      */
     private $created_at;
     /**
      * @Serializer\ReadOnly()
-     * @Accessor(getter="getUpdatedAt")
+     * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
+     * @Accessor(getter="getUpdatedAt", setter="setUpdatedAt")
      */
     private $updated_at;
 
