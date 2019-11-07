@@ -25,3 +25,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    dto_converter:
+        class:  App\Converter\DtoConverter
+        tags:
+            - { name: request.param_converter, priority: -2, converter: dto_converter }
+
+
