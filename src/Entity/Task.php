@@ -5,14 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\Timestampable;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  */
 class Task
 {
-    use Timestampable;
+    use TimestampableEntity;
 
     /**
      * @ORM\Id()
@@ -23,8 +23,9 @@ class Task
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Task", inversedBy="subTasks")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $parent_id;
+    private $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="parent_id")
@@ -35,7 +36,7 @@ class Task
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -62,14 +63,19 @@ class Task
         return $this->id;
     }
 
-    public function getParentId(): ?self
+    public function getParent(): ?self
     {
-        return $this->parent_id;
+        return $this->parent;
     }
 
-    public function setParentId(?self $parent_id): self
+    public function hasParent(): bool
     {
-        $this->parent_id = $parent_id;
+        return !is_null($this->parent);
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
 
         return $this;
     }
@@ -105,14 +111,14 @@ class Task
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
